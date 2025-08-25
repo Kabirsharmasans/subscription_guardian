@@ -1,32 +1,48 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import '../models/subscription.dart';
 import 'database_service.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notifications =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
-    // Initialize timezone
+    // Initialize timezone data
     tz.initializeTimeZones();
 
+    // Get the local timezone from the platform and set the local location
+    try {
+      final String timeZoneName =
+          await FlutterNativeTimezone.getLocalTimezone();
+      tz.setLocalLocation(tz.getLocation(timeZoneName));
+    } catch (e) {
+      // Fallback to local machine timezone if platform call fails
+      // (This keeps behavior safe in emulators or unsupported platforms)
+      // ignore: avoid_print
+      print('Could not get the local timezone: $e');
+    }
+
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings(
+        DarwinInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
     );
 
     const WindowsInitializationSettings initializationSettingsWindows =
-    WindowsInitializationSettings(appName: 'Subscription Guardian', appUserModelId: 'SG.SubscriptionGuardian', guid: 'a4d1a6a8-8328-4a1a-88b7-89459e3263e1');
+        WindowsInitializationSettings(
+            appName: 'Subscription Guardian',
+            appUserModelId: 'SG.SubscriptionGuardian',
+            guid: 'a4d1a6a8-8328-4a1a-88b7-89459e3263e1');
 
     const InitializationSettings initializationSettings =
-    InitializationSettings(
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
       windows: initializationSettingsWindows,
@@ -37,23 +53,23 @@ class NotificationService {
     // Request permissions for iOS
     await _notifications
         .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+          alert: true,
+          badge: true,
+          sound: true,
+        );
 
     // Request permissions for Android 13+
     await _notifications
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
   }
 
   static Future<void> scheduleRenewalReminder(Subscription subscription) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
+        AndroidNotificationDetails(
       'renewal_reminders',
       'Renewal Reminders',
       channelDescription: 'Notifications for upcoming subscription renewals',
@@ -62,7 +78,7 @@ class NotificationService {
     );
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-    DarwinNotificationDetails();
+        DarwinNotificationDetails();
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
@@ -82,6 +98,8 @@ class NotificationService {
           tz.TZDateTime.from(reminderDate, tz.local),
           platformChannelSpecifics,
           androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime,
         );
       }
     }
@@ -107,7 +125,7 @@ class NotificationService {
 
   static Future<void> showInstantNotification(String title, String body) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
+        AndroidNotificationDetails(
       'instant_notifications',
       'Instant Notifications',
       channelDescription: 'General notifications',
@@ -116,7 +134,7 @@ class NotificationService {
     );
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-    DarwinNotificationDetails();
+        DarwinNotificationDetails();
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
