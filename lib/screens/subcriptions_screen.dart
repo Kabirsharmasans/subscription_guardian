@@ -18,7 +18,7 @@ class SubscriptionsScreen extends StatefulWidget {
 class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
   List<Subscription> _subscriptions = [];
   Map<String, double> _totalMonthlyCostByCurrency = {};
-  SortBy _currentSortBy = Sort.renewalDate; // Default sort
+  SortBy _currentSortBy = SortBy.renewalDate; // Fixed: Changed from Sort.renewalDate
 
   // --- BRANDBOOK: A comprehensive map of brand colors ---
   final Map<String, Color> _brandColors = {
@@ -308,6 +308,46 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
     'nuestra tele': const Color(0xFF00AEEF),
     'latina play': const Color(0xFF00AEEF),
     'ecuavisa play': const Color(0xFF00AEEF),
+
+    // Music Services
+    'spotify': const Color(0xFF1ED760),
+    'apple music': const Color(0xFFFC3C44),
+    'amazon music': const Color(0xFF00A8E1),
+    'youtube music': const Color(0xFFFF0000),
+    'tidal': const Color(0xFF000000),
+    'deezer': const Color(0xFFFF6600),
+    'pandora': const Color(0xFF0074E4),
+    'soundcloud': const Color(0xFFFF8800),
+
+    // Gaming Services
+    'xbox game pass': const Color(0xFF107C10),
+    'playstation plus': const Color(0xFF0070D1),
+    'nintendo switch online': const Color(0xFFE60012),
+    'steam': const Color(0xFF171A21),
+    'epic games store': const Color(0xFF0078F2),
+
+    // Cloud Storage
+    'icloud': const Color(0xFF007AFF),
+    'google drive': const Color(0xFF4285F4),
+    'dropbox': const Color(0xFF0061FF),
+    'onedrive': const Color(0xFF0078D4),
+
+    // Work/Productivity
+    'microsoft 365': const Color(0xFF0078D4),
+    'google workspace': const Color(0xFF4285F4),
+    'adobe creative cloud': const Color(0xFFDA1F26),
+    'canva': const Color(0xFF00C4CC),
+    'notion': const Color(0xFF000000),
+    'slack': const Color(0xFF4A154B),
+    'zoom': const Color(0xFF2D8CFF),
+
+    // News/Reading
+    'new york times': const Color(0xFF000000),
+    'washington post': const Color(0xFF000000),
+    'wall street journal': const Color(0xFF0274B6),
+    'medium': const Color(0xFF000000),
+    'kindle unlimited': const Color(0xFF232F3E),
+    'audible': const Color(0xFFFF9500),
   };
 
   @override

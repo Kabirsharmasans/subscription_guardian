@@ -298,4 +298,4 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
       ],
     );
   }
-}
+} 
