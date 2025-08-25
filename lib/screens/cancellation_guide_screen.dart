@@ -268,7 +268,7 @@ class CancellationGuideScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton.icon(
-                      onPressed: () => _launchUrl(service.cancelUrl!),
+                      onPressed: () => _launchUrl(context, service.cancelUrl!),
                       icon: const Icon(Icons.open_in_new),
                       label: Text('Go to ${service.name} Cancellation'),
                     ),
@@ -282,7 +282,7 @@ class CancellationGuideScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _launchUrl(String url) async {
+  Future<void> _launchUrl(BuildContext context, String url) async {
     final uri = Uri.parse(url);
     try {
       if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {

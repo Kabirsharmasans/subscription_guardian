@@ -118,7 +118,7 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   FilledButton.icon(
-                    onPressed: () => _launchUrl('https://ko-fi.com/subscriptionguardian'),
+                    onPressed: () => _launchUrl(context, 'https://ko-fi.com/subscriptionguardian'),
                     icon: const Icon(Icons.coffee),
                     label: const Text('Buy Me a Coffee'),
                     style: FilledButton.styleFrom(
@@ -209,7 +209,7 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   TextButton.icon(
-                    onPressed: () => _launchUrl('mailto:hello@subscriptionguardian.app'),
+                    onPressed: () => _launchUrl(context, 'mailto:hello@subscriptionguardian.app'),
                     icon: const Icon(Icons.email_outlined),
                     label: const Text('hello@subscriptionguardian.app'),
                   ),
@@ -305,7 +305,7 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _launchUrl(String url) async {
+  Future<void> _launchUrl(BuildContext context, String url) async {
     final uri = Uri.parse(url);
     try {
       if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {

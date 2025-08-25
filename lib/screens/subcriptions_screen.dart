@@ -62,8 +62,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
     if (_searchController.text.isNotEmpty) {
       tempSubscriptions = tempSubscriptions.where((sub) {
         final query = _searchController.text.toLowerCase();
-        return sub.serviceName.toLowerCase().contains(query) ||
-               sub.description.toLowerCase().contains(query);
+        return sub.serviceName.toLowerCase().contains(query);
       }).toList();
     }
 
@@ -157,17 +156,17 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
-              children: [
-                _buildTotalCostCard(),
-                _buildFilterAndSearch(), // New widget
-                const Divider(height: 1, indent: 16, endIndent: 16),
-                Expanded(
-                  child: _filteredSubscriptions.isEmpty // Changed from _subscriptions
-                      ? _buildEmptyState()
-                      : _buildSubscriptionsList(),
-                ),
-              ],
-            ),
+        children: [
+          _buildTotalCostCard(),
+          _buildFilterAndSearch(), // New widget
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          Expanded(
+            child: _filteredSubscriptions.isEmpty // Changed from _subscriptions
+                ? _buildEmptyState()
+                : _buildSubscriptionsList(),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openSubscriptionDialog(),
         child: const Icon(Icons.add),
