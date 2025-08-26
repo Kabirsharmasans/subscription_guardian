@@ -22,7 +22,7 @@ class CancellationService {
 class CancellationGuideScreen extends StatelessWidget {
   const CancellationGuideScreen({super.key});
 
-  """  final List<CancellationService> _services = const [
+  final List<CancellationService> _services = const [
     CancellationService(
       name: '10 Play',
       logoEmoji: '▶️',
@@ -119,7 +119,7 @@ class CancellationGuideScreen extends StatelessWidget {
         'Click "End membership"',
         'Choose whether to end now or at renewal',
         'Confirm cancellation',
-        'You may be eligible for a refund if you haven't used benefits'
+        'You may be eligible for a refund if you haven\'t used benefits'
       ],
     ),
     CancellationService(
@@ -273,7 +273,7 @@ class CancellationGuideScreen extends StatelessWidget {
         'Note: Early cancellation may incur fees depending on your plan'
       ],
     ),
-  ];""
+  ];
 
   @override
   Widget build(BuildContext context) {

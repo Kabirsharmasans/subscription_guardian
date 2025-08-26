@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../models/subscription.dart';
 import '../services/database_service.dart';
 import '../services/notification_service.dart';
+import '../services/settings_service.dart';
 import 'add_subcription_dialog.dart';
 
 // Enum to define the sorting options
@@ -157,7 +158,8 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
-          _buildTotalCostCard(),
+          if (SettingsService.showMonthlyTotal)
+            _buildTotalCostCard(),
           _buildFilterAndSearch(), // New widget
           const Divider(height: 1, indent: 16, endIndent: 16),
           Expanded(
@@ -329,15 +331,25 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
   }
 
   String? _getLogoPath(String serviceName) {
-    // This function converts the service name into a filename-friendly format.
-    final formattedName = serviceName
-        .toLowerCase()
-        .replaceAll(' ', '')
-        .replaceAll('+', 'plus')
-        .replaceAll('.', '')
-        .replaceAll('&', 'and')
-        .replaceAll('/', ''); // Added to handle Vudu/Fandango
-    return 'assets/logos/$formattedName.png';
+    // Handle specific service names that don't follow the standard formatting
+    switch (serviceName.toLowerCase()) {
+      case 'netflix':
+        return 'assets/logos/netflix.png';
+      case 'amazon prime video':
+        return 'assets/logos/amazon-prime-video.png';
+      case 'vudu/fandango at home':
+        return 'assets/logos/fandango-at-home.png';
+      default:
+        // This function converts the service name into a filename-friendly format.
+        final formattedName = serviceName
+            .toLowerCase()
+            .replaceAll(' ', '')
+            .replaceAll('+', 'plus')
+            .replaceAll('.', '')
+            .replaceAll('&', 'and')
+            .replaceAll('/', '');
+        return 'assets/logos/$formattedName.png';
+    }
   }
 
   String _getCurrencySymbol(String currencyCode) {
