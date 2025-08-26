@@ -22,7 +22,67 @@ class CancellationService {
 class CancellationGuideScreen extends StatelessWidget {
   const CancellationGuideScreen({super.key});
 
-  final List<CancellationService> _services = const [
+  """  final List<CancellationService> _services = const [
+    CancellationService(
+      name: '10 Play',
+      logoEmoji: '▶️',
+      description: '10 Play is a free service. You can deactivate your account to stop using it.',
+      steps: [
+        'Go to the 10 Play website and log in.',
+        'Click on your name/email and go to "My TV".',
+        'Navigate to the "Account" settings.',
+        'Scroll down and click "Deactivate my account".',
+      ],
+      cancelUrl: 'https://10play.com.au/account',
+    ),
+    CancellationService(
+      name: '7plus',
+      logoEmoji: '▶️',
+      description: '7plus is a free service. You can close your account to stop using it.',
+      steps: [
+        'Go to the 7plus website and log in.',
+        'Navigate to the "Manage Account" page.',
+        'Select the "Close Account" option.',
+        'Confirm that you wish to close the account.',
+      ],
+      cancelUrl: 'https://7plus.com.au/account',
+    ),
+    CancellationService(
+      name: '9now',
+      logoEmoji: '▶️',
+      description: '9now is a free service. You can deactivate your account to stop using it.',
+      steps: [
+        'Log in to your 9Now account.',
+        'Click on your username and select "My Profile".',
+        'At the bottom of the page, click on "Deactivate".',
+        'Confirm by clicking "Deactivate my account".',
+      ],
+      cancelUrl: 'https://www.9now.com.au/my-profile',
+    ),
+    CancellationService(
+      name: 'ABC iview',
+      logoEmoji: '▶️',
+      description: 'ABC iview is a free service. You can delete your ABC Account to stop using it.',
+      steps: [
+        'Go to the ABC Account settings page.',
+        'Log in to your account.',
+        'Find the option to delete your account.',
+      ],
+      cancelUrl: 'https://www.abc.net.au/myaccount',
+    ),
+    CancellationService(
+      name: 'Acorn TV',
+      logoEmoji: '📺',
+      description: 'Cancel your Acorn TV subscription based on how you signed up.',
+      steps: [
+        'Website: Go to Acorn TV website > My Acorn TV > Manage Account > Cancel Membership.',
+        'Amazon Prime: Go to Amazon account > Memberships & Subscriptions > Manage Subscription > Cancel Channel.',
+        'Roku: Log in to Roku account > Manage Subscriptions > Cancel.',
+        'Apple: Settings app > Your Name > Subscriptions > Acorn TV > Cancel Subscription.',
+        'Google Play: Google Play Store app > Menu > Subscriptions > Acorn TV > Cancel Subscription.',
+      ],
+      helpUrl: 'https://support.acorn.tv/en/support/solutions/articles/101000424418-how-do-i-cancel-my-subscription-',
+    ),
     CancellationService(
       name: 'Netflix',
       logoEmoji: '🎬',
@@ -59,7 +119,7 @@ class CancellationGuideScreen extends StatelessWidget {
         'Click "End membership"',
         'Choose whether to end now or at renewal',
         'Confirm cancellation',
-        'You may be eligible for a refund if you haven\'t used benefits'
+        'You may be eligible for a refund if you haven't used benefits'
       ],
     ),
     CancellationService(
@@ -114,6 +174,93 @@ class CancellationGuideScreen extends StatelessWidget {
       ],
     ),
     CancellationService(
+      name: 'Max',
+      logoEmoji: '📺',
+      description: 'Cancel your Max (formerly HBO Max) subscription.',
+      steps: [
+        'Website: Go to max.com/subscription > Cancel Your Subscription.',
+        'Amazon: Go to amazon.com/appstoresubscriptions > Find Max > Turn off auto-renewal.',
+        'Apple: Settings app > Your Name > Subscriptions > Max > Cancel Subscription.',
+        'Google Play: Google Play Store app > Menu > Subscriptions > Max > Cancel Subscription.',
+        'Roku: my.roku.com/subscriptions > Find Max > Turn off auto-renew.',
+      ],
+      helpUrl: 'https://help.max.com/US-en/Answer/Detail/000001127',
+    ),
+    CancellationService(
+      name: 'Peacock',
+      logoEmoji: '🦚',
+      description: 'Cancel your Peacock subscription.',
+      steps: [
+        'Website: Go to PeacockTV.com > Account > Plans & Payment > Change or Cancel Plan.',
+        'Apple: App Store > Subscriptions > Peacock > Cancel Subscription.',
+        'Google Play: Google Play Store app > Subscriptions > Peacock > Cancel subscription.',
+        'Roku: Highlight Peacock app > Press * > Manage subscription > Cancel subscription.',
+        'Amazon: amazon.com/appstoresubscriptions > Find Peacock > Manage Subscription.',
+      ],
+      helpUrl: 'https://www.peacocktv.com/help/article/cancellation',
+    ),
+    CancellationService(
+      name: 'Sling TV',
+      logoEmoji: '📺',
+      description: 'Cancel your Sling TV subscription online.',
+      steps: [
+        'Go to Sling.com and log in.',
+        'Go to "My Account".',
+        'Click on "Cancel Subscription".',
+        'Follow the prompts to confirm.',
+      ],
+      cancelUrl: 'https://www.sling.com/my-account',
+    ),
+    CancellationService(
+      name: 'Crunchyroll',
+      logoEmoji: '🍥',
+      description: 'Cancel your Crunchyroll subscription.',
+      steps: [
+        'Website: Go to Crunchyroll website > My Account > Membership Plan > Cancel Membership.',
+        'Apple: Settings app > Your Name > Subscriptions > Crunchyroll > Cancel Subscription.',
+        'Google Play: Google Play Store app > Subscriptions > Crunchyroll > Cancel subscription.',
+        'Roku: my.roku.com/subscriptions > Find Crunchyroll > Turn off auto-renew.',
+        'PayPal: Log in to PayPal > Settings > Payments > Manage automatic payments > Ellation Holdings Inc. > Cancel.',
+      ],
+      helpUrl: 'https://help.crunchyroll.com/hc/en-us/articles/17931135995924-How-do-I-cancel-my-membership',
+    ),
+    CancellationService(
+      name: 'BBC iPlayer',
+      logoEmoji: '🇬🇧',
+      description: 'BBC iPlayer is a free service. You can delete your BBC account to stop using it.',
+      steps: [
+        'Go to the BBC website and sign in.',
+        'Go to "Account settings".',
+        'Click on "Delete my account".',
+        'Enter your password to confirm.',
+      ],
+      cancelUrl: 'https://www.bbc.co.uk/account',
+    ),
+    CancellationService(
+      name: 'Crave',
+      logoEmoji: '🇨🇦',
+      description: 'Cancel your Crave subscription.',
+      steps: [
+        'Website: Go to crave.ca > Manage Account > Subscriptions > Cancel Subscription.',
+        'TV/Cable/Mobility Provider: Contact your provider directly.',
+        'Apple: Settings app > Your Name > Subscriptions > Crave > Cancel Subscription.',
+        'Google Play: Google Play Store app > Subscriptions > Crave > Cancel subscription.',
+        'Roku: my.roku.com/subscriptions > Find Crave > Turn off auto-renew.',
+      ],
+      helpUrl: 'https://www.crave.ca/en/support/cancellation-and-refunds-72924699',
+    ),
+    CancellationService(
+      name: 'Stan',
+      logoEmoji: '🇦🇺',
+      description: 'Cancel your Stan subscription.',
+      steps: [
+        'Website: Go to stan.com.au > Manage Account > Cancel your subscription.',
+        'Apple: Settings app > Your Name > Subscriptions > Stan > Cancel Subscription.',
+        'Google Play: Google Play Store app > Subscriptions > Stan > Cancel subscription.',
+      ],
+      helpUrl: 'https://help.stan.com.au/hc/en-us/articles/202751450-How-do-I-cancel-my-subscription',
+    ),
+    CancellationService(
       name: 'Adobe Creative Cloud',
       logoEmoji: '🎨',
       description: 'Cancel Adobe subscription through your Adobe account.',
@@ -126,7 +273,7 @@ class CancellationGuideScreen extends StatelessWidget {
         'Note: Early cancellation may incur fees depending on your plan'
       ],
     ),
-  ];
+  ];""
 
   @override
   Widget build(BuildContext context) {

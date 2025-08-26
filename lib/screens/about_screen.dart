@@ -209,9 +209,9 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   TextButton.icon(
-                    onPressed: () => _launchUrl(context, 'mailto:hello@subscriptionguardian.app'),
+                    onPressed: () => _launchUrl(context, 'mailto:workkabir.s@gmail.com'),
                     icon: const Icon(Icons.email_outlined),
-                    label: const Text('hello@subscriptionguardian.app'),
+                    label: const Text('workkabir.s@gmail.com'),
                   ),
                 ],
               ),
@@ -222,7 +222,8 @@ class AboutScreen extends StatelessWidget {
             // Copyright
             Center(
               child: Text(
-                '© 2024 Subscription Guardian\nMade with ❤️ for your financial freedom',
+                '''© 2025 Subscription Guardian
+Made with ❤️ for your financial freedom''',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.outline,

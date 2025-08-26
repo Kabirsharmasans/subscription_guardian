@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'subcriptions_screen.dart';
 import 'cancellation_guide_screen.dart';
 import 'about_screen.dart';
+import 'settings_screen.dart'; // Import the settings screen
 import '../services/database_service.dart';
 import '../services/notification_service.dart';
 
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const SubscriptionsScreen(),
       const CancellationGuideScreen(),
       const AboutScreen(),
+      const SettingsScreen(), // Add the SettingsScreen to the list
     ];
   }
 
@@ -57,6 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
             selectedIcon: Icon(Icons.info),
             label: 'About & Support',
           ),
+          NavigationDestination(
+            icon: Icon(Icons.settings_outlined),
+            selectedIcon: Icon(Icons.settings),
+            label: 'Settings',
+          ), // Add the Settings button
         ],
       ),
     );
