@@ -181,7 +181,7 @@ class CancellationGuideScreen extends StatelessWidget {
         'Website: Go to max.com/subscription > Cancel Your Subscription.',
         'Amazon: Go to amazon.com/appstoresubscriptions > Find Max > Turn off auto-renewal.',
         'Apple: Settings app > Your Name > Subscriptions > Max > Cancel Subscription.',
-        'Google Play: Google Play Store app > Menu > Subscriptions > Max > Cancel Subscription.',
+        'Google Play: Google Play Store app > Subscriptions > Max > Cancel Subscription.',
         'Roku: my.roku.com/subscriptions > Find Max > Turn off auto-renew.',
       ],
       helpUrl: 'https://help.max.com/US-en/Answer/Detail/000001127',

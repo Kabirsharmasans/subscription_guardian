@@ -3,8 +3,7 @@ import 'subcriptions_screen.dart';
 import 'cancellation_guide_screen.dart';
 import 'about_screen.dart';
 import 'settings_screen.dart';
-import '../services/database_service.dart';
-import '../services/notification_service.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final Function(String)? onThemeChanged;

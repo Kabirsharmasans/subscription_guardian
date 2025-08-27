@@ -112,21 +112,6 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'If Subscription Guardian has helped you save money or gain clarity about your subscriptions, consider supporting its development with a small donation.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.purple.shade700),
-                  ),
-                  const SizedBox(height: 16),
-                  FilledButton.icon(
-                    onPressed: () => _launchUrl(context, 'https://ko-fi.com/subscriptionguardian'),
-                    icon: const Icon(Icons.coffee),
-                    label: const Text('Buy Me a Coffee'),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Colors.purple.shade600,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
                     'Donations help keep this app free and ad-free for everyone!',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.purple.shade600,
@@ -139,7 +124,7 @@ class AboutScreen extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // Features Overview
+            // Features
             Text(
               'Features',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -262,7 +247,7 @@ Made with ❤️ for your financial freedom''',
                 ),
               ),
             ],
-          ),
+            ),
           const SizedBox(height: 8),
           Text(
             content,

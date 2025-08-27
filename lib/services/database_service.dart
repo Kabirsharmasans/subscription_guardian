@@ -57,6 +57,19 @@ class DatabaseService {
     }
   }
 
+  // Category operations
+  static Future<void> addCategory(Category category) async {
+    await categoriesBox.put(category.id, category);
+  }
+
+  static Future<void> updateCategory(Category category) async {
+    await categoriesBox.put(category.id, category);
+  }
+
+  static Future<void> deleteCategory(String id) async {
+    await categoriesBox.delete(id);
+  }
+
   // Subscription operations
   static Future<void> addSubscription(Subscription subscription) async {
     await subscriptionsBox.put(subscription.id, subscription);

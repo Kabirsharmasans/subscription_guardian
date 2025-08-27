@@ -1,6 +1,6 @@
 {
-    "name": "subscription_guardian",
-    "short_name": "subscription_guardian",
+    "name": "subscriptionguardian",
+    "short_name": "subscriptionguardian",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

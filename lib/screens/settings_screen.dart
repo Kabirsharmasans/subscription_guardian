@@ -168,18 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
+  
 
   void _showCategoryManagementDialog() {
     showDialog(
@@ -271,14 +260,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  ThemeMode _getThemeModeFromString(String modeString) {
-    switch (modeString) {
-      case 'light': return ThemeMode.light;
-      case 'dark': return ThemeMode.dark;
-      case 'amoled': return ThemeMode.dark; // AMOLED is a dark theme
-      default: return ThemeMode.system;
-    }
-  }
+  
 
   void _showReminderDaysDialog() {
     final List<String> allReminderOptions = [

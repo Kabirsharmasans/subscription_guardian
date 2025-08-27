@@ -1,4 +1,4 @@
-# subscription_guardian
+# subscriptionguardian
 
 A new Flutter project.
 
