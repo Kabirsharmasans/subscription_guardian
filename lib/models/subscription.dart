@@ -44,11 +44,25 @@ class Subscription extends HiveObject {
     final now = DateTime.now();
     final renewalDay = renewalDate.day;
 
-    DateTime nextRenewal = DateTime(now.year, now.month, renewalDay);
+    // Start with current month
+    DateTime nextRenewal;
 
-    // If the renewal date this month has passed, move to next month
-    if (nextRenewal.isBefore(now)) {
-      nextRenewal = DateTime(now.year, now.month + 1, renewalDay);
+    try {
+      nextRenewal = DateTime(now.year, now.month, renewalDay);
+    } catch (e) {
+      // Handle case where renewal day doesn't exist in current month (e.g., Feb 31)
+      // Fall back to last day of month
+      nextRenewal = DateTime(now.year, now.month + 1, 0);
+    }
+
+    // If the renewal date this month has already passed, move to next month
+    if (nextRenewal.isBefore(now) || nextRenewal.isAtSameMomentAs(now)) {
+      try {
+        nextRenewal = DateTime(now.year, now.month + 1, renewalDay);
+      } catch (e) {
+        // Handle case where renewal day doesn't exist in next month
+        nextRenewal = DateTime(now.year, now.month + 2, 0);
+      }
     }
 
     return nextRenewal;

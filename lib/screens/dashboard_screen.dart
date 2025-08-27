@@ -17,6 +17,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   List<Category> _categories = [];
   Map<String, double> _spendingByCategory = {};
   String _primaryCurrency = 'USD';
+  final Map<String, Color> _categoryColors = {};
 
   @override
   void initState() {
@@ -75,8 +76,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildSpendingChart() {
-    final List<PieChartSectionData>
-    sections = _spendingByCategory.entries.where((entry) => entry.value > 0).map((
+    final List<PieChartSectionData> sections =
+        _spendingByCategory.entries.where((entry) => entry.value > 0).map((
       entry,
     ) {
       final category = _categories.firstWhere(
@@ -182,6 +183,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Color _getColorForCategory(String categoryId) {
-    return Colors.primaries[categoryId.hashCode % Colors.primaries.length];
+    // Return cached color if already assigned
+    if (_categoryColors.containsKey(categoryId)) {
+      return _categoryColors[categoryId]!;
+    }
+
+    // Assign a consistent color based on category ID
+    final colors = [
+      Colors.blue,
+      Colors.green,
+      Colors.orange,
+      Colors.purple,
+      Colors.red,
+      Colors.teal,
+      Colors.indigo,
+      Colors.pink,
+      Colors.amber,
+      Colors.cyan,
+    ];
+
+    final color = colors[categoryId.hashCode.abs() % colors.length];
+    _categoryColors[categoryId] = color;
+    return color;
   }
 }

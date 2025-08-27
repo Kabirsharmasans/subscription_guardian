@@ -102,7 +102,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SwitchListTile(
             secondary: const Icon(Icons.attach_money),
             title: const Text('Show Monthly Total'),
-            subtitle: const Text('Display total monthly spending on home screen'),
+            subtitle:
+                const Text('Display total monthly spending on home screen'),
             value: SettingsService.showMonthlyTotal,
             onChanged: (bool value) {
               setState(() {
@@ -122,7 +123,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             leading: const Icon(Icons.category_outlined),
             title: const Text('Manage Categories'),
-            subtitle: const Text('Add, edit, or delete subscription categories'),
+            subtitle:
+                const Text('Add, edit, or delete subscription categories'),
             onTap: () {
               _showCategoryManagementDialog();
             },
@@ -167,8 +169,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
-
-  
 
   void _showCategoryManagementDialog() {
     showDialog(
@@ -241,12 +241,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: const Text('Privacy Policy'),
         content: const SingleChildScrollView(
           child: Text(
-            'Subscription Guardian is committed to protecting your privacy:\n\n' 
-            '• All your subscription data is stored locally on your device\n' 
-            '• We never collect, transmit, or store any personal information\n' 
-            '• No accounts are required to use this app\n' 
-            '• No analytics or tracking are performed\n' 
-            '• No internet connection is required for core functionality\n\n' 
+            'Subscription Guardian is committed to protecting your privacy:\n\n'
+            '• All your subscription data is stored locally on your device\n'
+            '• We never collect, transmit, or store any personal information\n'
+            '• No accounts are required to use this app\n'
+            '• No analytics or tracking are performed\n'
+            '• No internet connection is required for core functionality\n\n'
             'Your financial data is completely private and under your control.',
           ),
         ),
@@ -260,8 +260,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  
-
   void _showReminderDaysDialog() {
     final List<String> allReminderOptions = [
       '12 hours',
@@ -274,57 +272,60 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Select Reminder Days'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: allReminderOptions.map((option) {
-              return CheckboxListTile(
-                title: Text(option),
-                value: selectedOptions.contains(option),
-                onChanged: (bool? value) {
-                  setState(() {
-                    if (value == true) {
-                      selectedOptions.add(option);
-                    } else {
-                      selectedOptions.remove(option);
-                    }
-                  });
-                },
-              );
-            }).toList(),
+      builder: (context) => StatefulBuilder(
+        // Add StatefulBuilder here
+        builder: (context, dialogSetState) => AlertDialog(
+          title: const Text('Select Reminder Days'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: allReminderOptions.map((option) {
+                return CheckboxListTile(
+                  title: Text(option),
+                  value: selectedOptions.contains(option),
+                  onChanged: (bool? value) {
+                    dialogSetState(() {
+                      // Use dialogSetState instead of setState
+                      if (value == true) {
+                        selectedOptions.add(option);
+                      } else {
+                        selectedOptions.remove(option);
+                      }
+                    });
+                  },
+                );
+              }).toList(),
+            ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  SettingsService.reminderDaysList = selectedOptions;
+                  NotificationService.scheduleAllReminderNotifications();
+                });
+                Navigator.pop(context);
+              },
+              child: const Text('Save'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                SettingsService.reminderDaysList = selectedOptions;
-                NotificationService.scheduleAllReminderNotifications(); // Reschedule with new settings
-              });
-              Navigator.pop(context);
-            },
-            child: const Text('Save'),
-          ),
-        ],
       ),
     );
   }
 }
-
-
 
 class _CategoryManagementWidget extends StatefulWidget {
   final VoidCallback onCategoriesChanged;
   const _CategoryManagementWidget({required this.onCategoriesChanged});
 
   @override
-  State<_CategoryManagementWidget> createState() => _CategoryManagementWidgetState();
+  State<_CategoryManagementWidget> createState() =>
+      _CategoryManagementWidgetState();
 }
 
 class _CategoryManagementWidgetState extends State<_CategoryManagementWidget> {
@@ -366,11 +367,14 @@ class _CategoryManagementWidgetState extends State<_CategoryManagementWidget> {
   void _deleteCategory(Category category) {
     // Check if any subscriptions use this category
     final subscriptions = DatabaseService.getAllSubscriptions();
-    final hasSubscriptions = subscriptions.any((sub) => sub.categoryId == category.id);
+    final hasSubscriptions =
+        subscriptions.any((sub) => sub.categoryId == category.id);
 
     if (hasSubscriptions) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Cannot delete category: it is being used by subscriptions')),
+        const SnackBar(
+            content: Text(
+                'Cannot delete category: it is being used by subscriptions')),
       );
       return;
     }
@@ -411,17 +415,23 @@ class _CategoryManagementWidgetState extends State<_CategoryManagementWidget> {
             itemCount: _categories.length,
             itemBuilder: (context, index) {
               final category = _categories[index];
-              final isDefault = ['entertainment', 'work', 'utilities', 'music', 'other']
-                  .contains(category.id);
+              final isDefault = [
+                'entertainment',
+                'work',
+                'utilities',
+                'music',
+                'other'
+              ].contains(category.id);
 
               return ListTile(
                 title: Text(category.name),
-                trailing: isDefault ?
-                  const Icon(Icons.lock_outline, color: Colors.grey) :
-                  IconButton(
-                    icon: const Icon(Icons.delete_outline, color: Colors.red),
-                    onPressed: () => _deleteCategory(category),
-                  ),
+                trailing: isDefault
+                    ? const Icon(Icons.lock_outline, color: Colors.grey)
+                    : IconButton(
+                        icon:
+                            const Icon(Icons.delete_outline, color: Colors.red),
+                        onPressed: () => _deleteCategory(category),
+                      ),
               );
             },
           ),

@@ -27,7 +27,15 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
   late DateTime _selectedDate;
   late String _selectedCurrency;
   String? _selectedCategoryId;
-  final List<String> _currencyOptions = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'INR'];
+  final List<String> _currencyOptions = [
+    'USD',
+    'EUR',
+    'GBP',
+    'JPY',
+    'CAD',
+    'AUD',
+    'INR'
+  ];
   List<Category> _categories = [];
 
   // --- Data for Autocomplete ---
@@ -79,7 +87,9 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
   void _saveSubscription() {
     if (_formKey.currentState?.validate() == true) {
       final subscription = Subscription(
-        id: isEditing ? widget.subscription!.id : DateTime.now().millisecondsSinceEpoch.toString(),
+        id: isEditing
+            ? widget.subscription!.id
+            : DateTime.now().millisecondsSinceEpoch.toString(),
         serviceName: _serviceNameController.text.trim(),
         monthlyCost: double.parse(_costController.text),
         renewalDate: _selectedDate,
@@ -110,16 +120,22 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
                     return const Iterable<String>.empty();
                   }
                   return _brandNames.where((String option) {
-                    return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                    return option
+                        .toLowerCase()
+                        .contains(textEditingValue.text.toLowerCase());
                   });
                 },
                 onSelected: (String selection) {
                   _serviceNameController.text = selection;
                 },
-                fieldViewBuilder: (BuildContext context, TextEditingController fieldController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
-                  // Sync our controller with the autocomplete's internal controller
-                  if (_serviceNameController.text.isEmpty) {
-                    _serviceNameController.value = fieldController.value;
+                fieldViewBuilder: (BuildContext context,
+                    TextEditingController fieldController,
+                    FocusNode focusNode,
+                    VoidCallback onFieldSubmitted) {
+                  // Initialize fieldController with existing value if editing
+                  if (fieldController.text.isEmpty &&
+                      _serviceNameController.text.isNotEmpty) {
+                    fieldController.text = _serviceNameController.text;
                   }
                   return TextFormField(
                     controller: fieldController,
@@ -138,7 +154,9 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
                     textCapitalization: TextCapitalization.words,
                   );
                 },
-                optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+                optionsViewBuilder: (BuildContext context,
+                    AutocompleteOnSelected<String> onSelected,
+                    Iterable<String> options) {
                   return Align(
                     alignment: Alignment.topLeft,
                     child: Material(
@@ -150,8 +168,10 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
                           itemCount: options.length,
                           itemBuilder: (BuildContext context, int index) {
                             final String option = options.elementAt(index);
-                            final logoPath = DatabaseService.getLogoPath(option);
-                            final brandColor = _brandColors[option.toLowerCase()];
+                            final logoPath =
+                                DatabaseService.getLogoPath(option);
+                            final brandColor =
+                                _brandColors[option.toLowerCase()];
 
                             return ListTile(
                               leading: Container(
@@ -163,9 +183,13 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
                                 ),
                                 child: logoPath != null
                                     ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child: Image.asset(logoPath, fit: BoxFit.cover, errorBuilder: (c, e, s) => const Icon(Icons.bookmark, size: 18)),
-                                )
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: Image.asset(logoPath,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (c, e, s) =>
+                                                const Icon(Icons.bookmark,
+                                                    size: 18)),
+                                      )
                                     : const Icon(Icons.bookmark, size: 18),
                               ),
                               title: Text(option),
@@ -247,7 +271,7 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
                         border: OutlineInputBorder(),
                       ),
                       keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(
                             RegExp(r'^\d+\.?\d{0,2}')),
@@ -298,4 +322,4 @@ class _AddSubscriptionDialogState extends State<AddSubscriptionDialog> {
       ],
     );
   }
-} 
+}

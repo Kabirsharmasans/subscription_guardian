@@ -37,15 +37,15 @@ class AboutScreen extends StatelessWidget {
                   Text(
                     'Subscription Guardian',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Version 1.0.0',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.outline,
-                    ),
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
                   ),
                 ],
               ),
@@ -106,16 +106,53 @@ class AboutScreen extends StatelessWidget {
                   Text(
                     'Support the Mission',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple.shade700,
-                    ),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.purple.shade700,
+                        ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Donations help keep this app free and ad-free for everyone!',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.purple.shade600,
-                    ),
+                          color: Colors.purple.shade600,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  // Donation Buttons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () => _launchUrl(
+                            context, 'https://ko-fi.com/kabirsharmasans'),
+                        icon: const Icon(Icons.coffee),
+                        label: const Text('Buy me a coffee'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color(0xFFF16061), // Ko-fi color
+                          foregroundColor: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      ElevatedButton.icon(
+                        onPressed: () => _launchUrl(
+                            context, 'upi://pay?pa=kabirsharmasans@upi'),
+                        icon: const Icon(Icons.currency_rupee),
+                        label: const Text('UPI Donate'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Every contribution helps maintain and improve the app! 🙏',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.purple.shade600,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -128,8 +165,8 @@ class AboutScreen extends StatelessWidget {
             Text(
               'Features',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 16),
 
@@ -183,8 +220,8 @@ class AboutScreen extends StatelessWidget {
                   Text(
                     'Questions or Feedback?',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -194,7 +231,8 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   TextButton.icon(
-                    onPressed: () => _launchUrl(context, 'mailto:workkabir.s@gmail.com'),
+                    onPressed: () =>
+                        _launchUrl(context, 'mailto:workkabir.s@gmail.com'),
                     icon: const Icon(Icons.email_outlined),
                     label: const Text('workkabir.s@gmail.com'),
                   ),
@@ -211,8 +249,8 @@ class AboutScreen extends StatelessWidget {
 Made with ❤️ for your financial freedom''',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.outline,
-                ),
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
               ),
             ),
 
@@ -223,7 +261,8 @@ Made with ❤️ for your financial freedom''',
     );
   }
 
-  Widget _buildSection(BuildContext context, String title, IconData icon, String content, Color color) {
+  Widget _buildSection(BuildContext context, String title, IconData icon,
+      String content, Color color) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -242,12 +281,12 @@ Made with ❤️ for your financial freedom''',
               Text(
                 title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                    ),
               ),
             ],
-            ),
+          ),
           const SizedBox(height: 8),
           Text(
             content,
@@ -258,7 +297,8 @@ Made with ❤️ for your financial freedom''',
     );
   }
 
-  Widget _buildFeatureItem(BuildContext context, IconData icon, String title, String description) {
+  Widget _buildFeatureItem(
+      BuildContext context, IconData icon, String title, String description) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
