@@ -55,7 +55,7 @@
 
 ### Download
 - **Google Play Store**: *Coming Soon*
-- **Apple App Store**: *Coming Soon*
+- **Apple App Store**: *Coming Soon* (less likely)
 - **APK Release**: Check [Releases](https://github.com/yourusername/subscription-guardian/releases)
 
 ### Building from Source
@@ -124,7 +124,6 @@ flutter run
 - [ ] **v1.2** - Spending trends and analytics
 - [ ] **v1.3** - Subscription sharing with family
 - [ ] **v1.4** - Custom reminder messages
-- [ ] **v2.0** - Desktop versions (Windows, macOS, Linux)
 
 ## 🛠️ Tech Stack
 
