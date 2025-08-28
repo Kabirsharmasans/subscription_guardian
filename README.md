@@ -65,7 +65,7 @@
 - Dart SDK 3.0.0 or higher
 - Android Studio / VS Code
 
-#### Installation
+#### Installation (if doesn't work just install manually)
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/subscription-guardian.git
