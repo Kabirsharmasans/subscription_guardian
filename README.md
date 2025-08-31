@@ -50,6 +50,9 @@
 | Home Screen | Dashboard | Freedom Guide | Settings |
 |-------------|-----------|---------------|----------|
 | A clean and simple list of all your subscriptions. | A beautiful pie chart showing your spending breakdown by category. | A list of popular services with instructions on how to cancel your subscription. | A comprehensive list of settings to customize the app to your liking. |
+## But Builds for Android, Windows, and Web have been generated and are ready for release.
+
+Note: macOS and Linux builds are not included in this release due to hardware and environment limitations.
 
 ## 🚀 Getting Started
 
