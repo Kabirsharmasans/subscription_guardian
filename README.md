@@ -156,7 +156,7 @@ We welcome contributions! Here's how you can help:
 flutter pub get
 
 # Generate code (for Hive models)
-flutter packages pub run build_runner build --delete-conflicting-outputs
+flutter packages pub run build_runner build
 
 # Run tests (when we add them 😅)
 flutter test
