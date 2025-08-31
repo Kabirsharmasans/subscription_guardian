@@ -57,10 +57,10 @@ Note: macOS and Linux builds are not included in this release due to hardware an
 ## 🚀 Getting Started
 
 ### Download
-- **GitHub Release (v1.0.0)**: [Download Here](https://github.com/yourusername/subscription-guardian/releases/tag/v1.0.0)
+- **GitHub Release (v1.0.0)**: [Download Here](https://github.com/Kabirsharmasans/subscription_guardian/releases/tag/v1.0.0)
 - **Google Play Store**: *Coming Soon*
 - **Apple App Store**: *Coming Soon*
-- **APK Release**: Check [Releases](https://github.com/yourusername/subscription-guardian/releases)
+- **APK Release**: Check [Releases](https://github.com/Kabirsharmasans/subscription_guardian/releases)
 
 ### Building from Source
 
@@ -72,7 +72,7 @@ Note: macOS and Linux builds are not included in this release due to hardware an
 #### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/Kabirsharmasans/subscription_guardian.git 
+https://github.com/Kabirsharmasans/subscription_guardian.git 
 cd subscription-guardian
 
 # Install dependencies
@@ -146,7 +146,7 @@ flutter run
 
 We welcome contributions! Here's how you can help:
 
-1. **Report Bugs**: Found an issue? [Open an issue](https://github.com/yourusername/subscription-guardian/issues)
+1. **Report Bugs**: Found an issue? [Open an issue](https://github.com/Kabirsharmasans/subscription_guardian/issues)
 2. **Feature Requests**: Have an idea? We'd love to hear it!
 3. **Code Contributions**: 
    - Fork the repo
@@ -210,8 +210,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 - **Email**: workkabir.s@gmail.com
-- **Issues**: [GitHub Issues](https://github.com/yourusername/subscription-guardian/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/subscription-guardian/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Kabirsharmasans/subscription_guardian/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Kabirsharmasans/subscription_guardian/discussions)
 
 ---
 
@@ -221,6 +221,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ⭐ **Star this repo if it helped you save money!** ⭐
 
-[Download Now](https://github.com/yourusername/subscription-guardian/releases) • [Report Bug](https://github.com/yourusername/subscription-guardian/issues) • [Request Feature](https://github.com/yourusername/subscription-guardian/issues)
+[Download Now](https://github.com/Kabirsharmasans/subscription_guardian/releases) • [Report Bug](https://github.com/Kabirsharmasans/subscription_guardian/issues) • [Request Feature](https://github.com/Kabirsharmasans/subscription_guardian/issues)
 
 </div>
