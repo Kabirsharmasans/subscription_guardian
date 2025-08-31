@@ -72,7 +72,7 @@ Note: macOS and Linux builds are not included in this release due to hardware an
 #### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/subscription-guardian.git
+git clone https://github.com/Kabirsharmasans/subscription_guardian.git 
 cd subscription-guardian
 
 # Install dependencies
