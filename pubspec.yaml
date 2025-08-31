@@ -66,5 +66,4 @@ msix_config:
   msix_version: 1.0.0.0
   logo_path: assets/icon/icon.ico
   capabilities: "runFullTrust"
-  certificate_path: test_certificate.pfx
-  certificate_password: password
+  
