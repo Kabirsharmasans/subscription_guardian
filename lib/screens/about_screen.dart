@@ -120,8 +120,10 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   // Donation Buttons
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 12.0, // Horizontal spacing between children
+                    runSpacing: 8.0, // Vertical spacing between lines
                     children: [
                       ElevatedButton.icon(
                         onPressed: () => _launchUrl(
@@ -134,7 +136,6 @@ class AboutScreen extends StatelessWidget {
                           foregroundColor: Colors.white,
                         ),
                       ),
-                      const SizedBox(width: 12),
                       ElevatedButton.icon(
                         onPressed: () => _launchUrl(
                             context, 'upi://pay?pa=kabirsharmasans@upi'),

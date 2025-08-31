@@ -4,6 +4,11 @@ import 'package:subscription_guardian/services/settings_service.dart';
 import 'package:subscription_guardian/services/notification_service.dart';
 import 'package:subscription_guardian/services/database_service.dart';
 import 'package:subscription_guardian/models/category.dart';
+import 'package:subscription_guardian/models/subscription.dart';
+import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
+import 'package:subscription_guardian/services/home_widget_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   final Function(String)? onThemeChanged;
@@ -112,13 +117,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.file_download),
-            title: const Text('Export Settings'),
-            subtitle: const Text('Export app settings to a file'),
+            leading: const Icon(Icons.widgets_outlined),
+            title: const Text('Update Home Widget'),
+            subtitle: const Text('Manually update the home widget'),
             onTap: () {
-              final settings = SettingsService.exportSettings();
-              _showExportDialog(context, settings.toString());
+              HomeWidgetService.updateWidget();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Home widget updated')),
+              );
             },
+          ),
+          ListTile(
+            leading: const Icon(Icons.file_upload_outlined),
+            title: const Text('Import Subscriptions'),
+            subtitle: const Text('Import subscriptions from a CSV file'),
+            onTap: _importSubscriptions,
+          ),
+          ListTile(
+            leading: const Icon(Icons.file_download_outlined),
+            title: const Text('Export Subscriptions'),
+            subtitle: const Text('Export subscriptions to a CSV file'),
+            onTap: _exportSubscriptions,
           ),
           ListTile(
             leading: const Icon(Icons.category_outlined),
@@ -150,24 +169,82 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showExportDialog(BuildContext context, String settingsText) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Exported Settings'),
-        content: SingleChildScrollView(
-          child: SelectableText(
-            '$settingsText\n\nYou can copy this text to backup your settings.',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
+  Future<void> _exportSubscriptions() async {
+    final subscriptions = DatabaseService.getAllSubscriptions();
+    final List<List<dynamic>> rows = [];
+    rows.add([
+      'Service Name',
+      'Monthly Cost',
+      'Renewal Date',
+      'Category ID'
+    ]);
+    for (final sub in subscriptions) {
+      rows.add([
+        sub.serviceName,
+        sub.monthlyCost,
+        sub.renewalDate.toIso8601String(),
+        sub.categoryId
+      ]);
+    }
+
+    final String csv = const ListToCsvConverter().convert(rows);
+
+    try {
+      final String? path = await FilePicker.platform.saveFile(
+        dialogTitle: 'Save Subscriptions CSV',
+        fileName: 'subscriptions.csv',
+      );
+
+      if (path != null) {
+        final file = File(path);
+        await file.writeAsString(csv);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Subscriptions exported successfully')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error exporting subscriptions: $e')),
+      );
+    }
+  }
+
+  Future<void> _importSubscriptions() async {
+    try {
+      final FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['csv'],
+      );
+
+      if (result != null) {
+        final file = File(result.files.single.path!);
+        final csvString = await file.readAsString();
+        final List<List<dynamic>> rows = const CsvToListConverter().convert(csvString);
+
+        // Skip header row
+        for (int i = 1; i < rows.length; i++) {
+          final row = rows[i];
+          final subscription = Subscription(
+            id: DateTime.now().millisecondsSinceEpoch.toString(),
+            serviceName: row[0],
+            monthlyCost: row[1],
+            renewalDate: DateTime.parse(row[2]),
+            categoryId: row[3],
+            createdAt: DateTime.now(),
+            currency: SettingsService.defaultCurrency,
+          );
+          await DatabaseService.addSubscription(subscription);
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Subscriptions imported successfully')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error importing subscriptions: $e')),
+      );
+    }
   }
 
   void _showCategoryManagementDialog() {
@@ -241,12 +318,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: const Text('Privacy Policy'),
         content: const SingleChildScrollView(
           child: Text(
-            'Subscription Guardian is committed to protecting your privacy:\n\n'
-            '• All your subscription data is stored locally on your device\n'
-            '• We never collect, transmit, or store any personal information\n'
-            '• No accounts are required to use this app\n'
-            '• No analytics or tracking are performed\n'
-            '• No internet connection is required for core functionality\n\n'
+            'Subscription Guardian is committed to protecting your privacy:\n\n' 
+            '• All your subscription data is stored locally on your device\n' 
+            '• We never collect, transmit, or store any personal information\n' 
+            '• No accounts are required to use this app\n' 
+            '• No analytics or tracking are performed\n' 
+            '• No internet connection is required for core functionality\n\n' 
             'Your financial data is completely private and under your control.',
           ),
         ),
@@ -279,8 +356,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: allReminderOptions.map((option) {
-                return CheckboxListTile(
+              children: allReminderOptions.map((option) =>
+                CheckboxListTile(
                   title: Text(option),
                   value: selectedOptions.contains(option),
                   onChanged: (bool? value) {
@@ -293,8 +370,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }
                     });
                   },
-                );
-              }).toList(),
+                )
+              ).toList(),
             ),
           ),
           actions: [

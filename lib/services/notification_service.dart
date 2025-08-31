@@ -1,23 +1,32 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import '../models/subscription.dart';
 import 'database_service.dart';
 import 'package:subscription_guardian/services/settings_service.dart';
 
 class NotificationService {
-  static final FlutterLocalNotificationsPlugin _notifications =
-  FlutterLocalNotificationsPlugin();
+  static FlutterLocalNotificationsPlugin? _notifications;
 
   static Future<void> init() async {
+    // Skip initialization on web since notifications aren't supported
+    if (kIsWeb) {
+      return;
+    }
+
+    _notifications = FlutterLocalNotificationsPlugin();
+
     // Initialize timezone data
     tz.initializeTimeZones();
 
     // Get the local timezone from the platform and set the local location
     try {
-      final String timeZoneName =
-      await FlutterNativeTimezone.getLocalTimezone();
+      final String timeZoneName = kIsWeb
+          ? 'UTC' // Use UTC for web
+          : await FlutterTimezone.getLocalTimezone();
       tz.setLocalLocation(tz.getLocation(timeZoneName));
     } catch (e) {
       // Fallback to UTC if platform call fails
@@ -27,50 +36,52 @@ class NotificationService {
     }
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings(
+        DarwinInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
     );
 
     const WindowsInitializationSettings initializationSettingsWindows =
-    WindowsInitializationSettings(
-        appName: 'Subscription Guardian',
-        appUserModelId: 'SG.SubscriptionGuardian',
-        guid: 'a4d1a6a8-8328-4a1a-88b7-89459e3263e1');
+        WindowsInitializationSettings(
+            appName: 'Subscription Guardian',
+            appUserModelId: 'SG.SubscriptionGuardian',
+            guid: 'a4d1a6a8-8328-4a1a-88b7-89459e3263e1');
 
     const InitializationSettings initializationSettings =
-    InitializationSettings(
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
       windows: initializationSettingsWindows,
     );
 
-    await _notifications.initialize(initializationSettings);
+    await _notifications!.initialize(initializationSettings);
 
     // Request permissions for iOS
-    await _notifications
+    await _notifications!
         .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+          alert: true,
+          badge: true,
+          sound: true,
+        );
 
     // Request permissions for Android 13+
-    await _notifications
+    await _notifications!
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
   }
 
   static Future<void> scheduleRenewalReminder(Subscription subscription) async {
+    if (kIsWeb || _notifications == null) return;
+
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
+        AndroidNotificationDetails(
       'renewal_reminders',
       'Renewal Reminders',
       channelDescription: 'Notifications for upcoming subscription renewals',
@@ -79,7 +90,7 @@ class NotificationService {
     );
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-    DarwinNotificationDetails();
+        DarwinNotificationDetails();
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
@@ -91,7 +102,7 @@ class NotificationService {
 
     // Cancel existing notifications for this subscription before rescheduling
     for (int i = 0; i < reminderDaysList.length; i++) {
-      await _notifications.cancel(subscription.id.hashCode + i);
+      await _notifications!.cancel(subscription.id.hashCode + i);
     }
 
     for (int i = 0; i < reminderDaysList.length; i++) {
@@ -99,7 +110,7 @@ class NotificationService {
       final reminderDate = renewalDate.subtract(reminderDuration);
 
       if (reminderDate.isAfter(DateTime.now())) {
-        await _notifications.zonedSchedule(
+        await _notifications!.zonedSchedule(
           subscription.id.hashCode + i, // Unique ID for each notification
           'Subscription Reminder',
           '${subscription.serviceName} renews in ${reminderDaysList[i]}!',
@@ -135,21 +146,27 @@ class NotificationService {
   }
 
   static Future<void> cancelNotification(String subscriptionId) async {
+    if (kIsWeb || _notifications == null) return;
+
     // Cancel all scheduled notifications for this subscription
     final reminderDaysList = SettingsService.reminderDaysList;
     for (int i = 0; i < reminderDaysList.length; i++) {
-      await _notifications.cancel(subscriptionId.hashCode + i);
+      await _notifications!.cancel(subscriptionId.hashCode + i);
     }
   }
 
   static Future<void> cancelAllNotifications() async {
-    await _notifications.cancelAll();
+    if (kIsWeb || _notifications == null) return;
+
+    await _notifications!.cancelAll();
   }
 
   static Future<void> scheduleAllReminderNotifications() async {
+    if (kIsWeb || _notifications == null) return;
+
     if (!SettingsService.notificationsEnabled) return;
     // Cancel all existing notifications first
-    await _notifications.cancelAll();
+    await _notifications!.cancelAll();
 
     // Schedule notifications for all active subscriptions
     final subscriptions = DatabaseService.getAllSubscriptions();
@@ -158,9 +175,22 @@ class NotificationService {
     }
   }
 
+  static Future<void> requestExactAlarmsPermission() async {
+    if (kIsWeb || _notifications == null || !Platform.isAndroid) {
+      return;
+    }
+    // Request the exact alarm permission from the user
+    await _notifications
+        ?.resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestExactAlarmsPermission();
+  }
+
   static Future<void> showInstantNotification(String title, String body) async {
+    if (kIsWeb || _notifications == null) return;
+
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
+        AndroidNotificationDetails(
       'instant_notifications',
       'Instant Notifications',
       channelDescription: 'General notifications',
@@ -169,14 +199,14 @@ class NotificationService {
     );
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-    DarwinNotificationDetails();
+        DarwinNotificationDetails();
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
 
-    await _notifications.show(
+    await _notifications!.show(
       0,
       title,
       body,

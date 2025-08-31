@@ -4,6 +4,7 @@
     android:minHeight="110dp"
     android:updatePeriodMillis="86400000"
     android:previewImage="@mipmap/ic_launcher"
-    android:initialLayout="@layout/home_widget_layout"
+    android:initialLayout="@layout/home_widget"
     android:resizeMode="horizontal|vertical"
-    android:widgetCategory="home_screen" />
+    android:widgetCategory="home_screen"
+    android:description="@string/home_widget_description" />

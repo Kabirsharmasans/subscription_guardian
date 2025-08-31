@@ -49,11 +49,12 @@
 
 | Home Screen | Dashboard | Freedom Guide | Settings |
 |-------------|-----------|---------------|----------|
-| *Coming Soon* | *Coming Soon* | *Coming Soon* | *Coming Soon* |
+| A clean and simple list of all your subscriptions. | A beautiful pie chart showing your spending breakdown by category. | A list of popular services with instructions on how to cancel your subscription. | A comprehensive list of settings to customize the app to your liking. |
 
 ## 🚀 Getting Started
 
 ### Download
+- **GitHub Release (v1.0.0)**: [Download Here](https://github.com/yourusername/subscription-guardian/releases/tag/v1.0.0)
 - **Google Play Store**: *Coming Soon*
 - **Apple App Store**: *Coming Soon*
 - **APK Release**: Check [Releases](https://github.com/yourusername/subscription-guardian/releases)
@@ -120,10 +121,14 @@ flutter run
 
 ## 🗺️ Roadmap
 
-- [ ] **v1.1** - Widgets for iOS
-- [ ] **v1.2** - Spending trends and analytics
-- [ ] **v1.3** - Subscription sharing with family
-- [ ] **v1.4** - Custom reminder messages
+- [x] **v1.0** - Core functionality, including subscription tracking, reminders, and the Freedom Guide.
+- [x] **v1.1** - Dashboard with spending breakdown chart.
+- [x] **v1.2** - Data export and import (CSV).
+- [x] **v1.3** - Home widget for upcoming renewals.
+- [ ] **v1.4** - Widgets for iOS
+- [ ] **v1.5** - Spending trends and analytics
+- [ ] **v1.6** - Subscription sharing with family
+- [ ] **v1.7** - Custom reminder messages
 - [ ] **v2.0** - Desktop versions (Windows, macOS, Linux)
 
 ## 🛠️ Tech Stack

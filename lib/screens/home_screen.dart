@@ -3,7 +3,9 @@ import 'subcriptions_screen.dart';
 import 'cancellation_guide_screen.dart';
 import 'about_screen.dart';
 import 'settings_screen.dart';
-
+import 'dashboard_screen.dart';
+import '../services/notification_service.dart';
+import '../widgets/title_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function(String)? onThemeChanged;
@@ -24,15 +26,29 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _screens = [
       const SubscriptionsScreen(),
+      const DashboardScreen(),
       const CancellationGuideScreen(),
       const AboutScreen(),
       SettingsScreen(onThemeChanged: widget.onThemeChanged), // Add the SettingsScreen to the list
     ];
+    _requestPermissionsAndScheduleNotifications();
+  }
+
+  Future<void> _requestPermissionsAndScheduleNotifications() async {
+    try {
+      // Request the exact alarm permission on Android
+      await NotificationService.requestExactAlarmsPermission();
+      // Schedule all notifications after the permission request
+      await NotificationService.scheduleAllReminderNotifications();
+    } catch (e) {
+      print('Error scheduling notifications: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const TitleBar(),
       body: IndexedStack(
         index: _selectedIndex,
         children: _screens,
@@ -49,6 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.subscriptions_outlined),
             selectedIcon: Icon(Icons.subscriptions),
             label: 'Subscriptions',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.dashboard_outlined),
+            selectedIcon: Icon(Icons.dashboard),
+            label: 'Dashboard',
           ),
           NavigationDestination(
             icon: Icon(Icons.cancel_outlined),

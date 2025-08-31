@@ -2,12 +2,17 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:subscription_guardian/models/subscription.dart';
 import 'package:subscription_guardian/services/database_service.dart';
 
 class DataService {
   // Export subscriptions to a CSV file
   static Future<String?> exportSubscriptions() async {
+    if (kIsWeb) {
+      return 'Export feature is not available on web. Please use the mobile app for data export.';
+    }
+
     final subscriptions = DatabaseService.getAllSubscriptions();
     if (subscriptions.isEmpty) {
       return 'No subscriptions to export.';
@@ -55,6 +60,10 @@ class DataService {
 
   // Import subscriptions from a CSV file
   static Future<String?> importSubscriptions() async {
+    if (kIsWeb) {
+      return 'Import feature is not available on web. Please use the mobile app for data import.';
+    }
+
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,

@@ -1,4 +1,5 @@
 import 'package:home_widget/home_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:subscription_guardian/services/database_service.dart';
 // Subscription model is referenced via DatabaseService so no direct import needed
 
@@ -6,17 +7,20 @@ class WidgetService {
   /// Updates the Android home widget with a compact summary string under
   /// the key 'upcoming_renewals' (the Android provider reads this key).
   static Future<void> updateWidget({int daysAhead = 30}) async {
+    // Skip widget updates on web since home widgets aren't supported
+    if (kIsWeb) {
+      return;
+    }
+
     try {
       final subscriptions = DatabaseService.getAllSubscriptions();
 
-      final upcoming =
-          subscriptions
-              .where((s) => s.isActive && s.getDaysUntilRenewal() <= daysAhead)
-              .toList()
-            ..sort(
-              (a, b) =>
-                  a.getDaysUntilRenewal().compareTo(b.getDaysUntilRenewal()),
-            );
+      final upcoming = subscriptions
+          .where((s) => s.isActive && s.getDaysUntilRenewal() <= daysAhead)
+          .toList()
+        ..sort(
+          (a, b) => a.getDaysUntilRenewal().compareTo(b.getDaysUntilRenewal()),
+        );
 
       String message;
       if (upcoming.isEmpty) {
